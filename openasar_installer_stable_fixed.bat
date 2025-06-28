@@ -1,14 +1,11 @@
 @echo off
-echo uninstall openasar if you already have it installed by going to %Localappdata%/Discord/app-*/ 
-echo delete the 39kb app.asar and rename the app.asar.backup or whatever thats about 9000kb to just app.asar
-echo if you do not have it, then it is fine just the "perma" backup that's created won't be the original file
-echo it will be made on future updates if/when you run this again
-echo this is in case you for some reason want to revert but accidentally ran this multiple times
-
+echo Uninstall OpenAsar if you already have it installed by going to %Localappdata%/Discord/app-*/
+echo Delete the 39KB app.asar and rename the app.asar.backup (around 9000KB) to just app.asar if reverting
+echo This script now avoids overwriting any *.backup files if they already exist.
 pause
+
 echo Closing Discord... (wait around 5 seconds)
 
-REM Terminate Discord multiple times to ensure it's closed
 C:\Windows\System32\TASKKILL.exe /f /im Discord.exe > nul 2> nul
 C:\Windows\System32\TASKKILL.exe /f /im Discord.exe > nul 2> nul
 C:\Windows\System32\TASKKILL.exe /f /im Discord.exe > nul 2> nul
@@ -23,29 +20,23 @@ for /d %%i in ("%discordBaseDir%\app-*") do (
     if exist "%%i\resources\app.asar" (
         echo Processing: %%i
 
-        if exist "%%i\resources\app.asar" (
-            REM Create permanent backup if it doesn't already exist
-            if not exist "%%i\resources\perma.app.asar.backup" (
-                copy /y "%%i\resources\app.asar" "%%i\resources\perma.app.asar.backup" > nul 2> nul
-		echo saved perma.app.asar.backup - this will not be overwritten, in case you want to revert
-            )
+        if not exist "%%i\resources\app.asar.backup" (
             copy /y "%%i\resources\app.asar" "%%i\resources\app.asar.backup" > nul 2> nul
+            echo Created backup: app.asar.backup
         )
 
         if exist "%%i\resources\_app.asar" (
-            if not exist "%%i\resources\perma._app.asar.backup" (
-                copy /y "%%i\resources\_app.asar" "%%i\resources\perma._app.asar.backup" > nul 2> nul
-		echo saved perma._app.asar.backup - this will not be overwritten, in case you want to revert
+            if not exist "%%i\resources\_app.asar.backup" (
+                copy /y "%%i\resources\_app.asar" "%%i\resources\_app.asar.backup" > nul 2> nul
+                echo Created backup: _app.asar.backup
             )
-            copy /y "%%i\resources\_app.asar" "%%i\resources\_app.asar.backup" > nul 2> nul
         )
 
         if exist "%%i\resources\app.asar.orig" (
-            if not exist "%%i\resources\perma.app.asar.orig.backup" (
-                copy /y "%%i\resources\app.asar.orig" "%%i\resources\perma.app.asar.orig.backup" > nul 2> nul
-		echo saved perma.app.asar.orig.backup - this will not be overwritten, in case you want to revert
+            if not exist "%%i\resources\app.asar.orig.backup" (
+                copy /y "%%i\resources\app.asar.orig" "%%i\resources\app.asar.orig.backup" > nul 2> nul
+                echo Created backup: app.asar.orig.backup
             )
-            copy /y "%%i\resources\app.asar.orig" "%%i\resources\app.asar.orig.backup" > nul 2> nul
         )
 
         powershell -Command "Invoke-WebRequest https://github.com/GooseMod/OpenAsar/releases/download/nightly/app.asar -OutFile \"%%i\resources\app.asar\"" > nul 2> nul
