@@ -1,3 +1,6 @@
+rather than having to update openasar's install bat every few months, just have it check for all app-* folders, and just replace all app.asar's with openasar's version. one and done. if it ever uninstalls after an update just run the same file, no more having to go to their site and redownload a new installer (atleast for stable discord) it should be relatively easy to make it for the other versions of openasar's installers, just copy paste and change a few lines to whatever is mentioned by the canary or ptb version. 
+
+
 # OpenAsar &nbsp;<sup><sub>/ˈoʊpən ʌsɑr/ &nbsp;*(o-pen as-are)*</sup></sub>
 ![Nightly Status](https://github.com/GooseMod/OpenAsar/actions/workflows/nightly.yml/badge.svg) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)]([https://choosealicense.com/licenses/agpl/l](https://choosealicense.com/licenses/agpl-3.0/))
 
